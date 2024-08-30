@@ -1,0 +1,18 @@
+AT-001|Spencer-Schelle|Normal|40|0.9|35||0
+AT-002|Roundhouse-Kick|Normal|60|0.6|25||0
+AT-003|5-PPHET|Normal|280|0.13|5||0
+AT-004|Hill-Haken|Normal|36|1|38||0
+AT-005|Drakaris|Feuer|120|0.8|20||0
+AT-006|Schaumparty|Wasser|96|1|20||0
+AT-007|Snoop Fog|Pflanze|150|0.64|15||0
+AT-008|Bahnhofsascher|Feuer|12|0.82|35||0
+AT-009|Rohrbruch|Wasser|10|1|35||0
+AT-010|Moosbefall|Pflanze|15|0.67|50||0
+AT-011|Zahnfee|Kampf|60|1|20||0
+AT-012|Fußabtreter|Kampf|70|0.86|20||0
+AT-013|Sperrstunde|Normal|120|0.9|10||0
+AT-014|Dadjoke|Normal|10|1|50||0
+AT-015|Schnupfen|Normal|35|1|40||0
+AT-016|Whiteboardschwinger|Kampf|90|0.4|2||0
+AT-017|Populismus|Normal|1|0.01|50||0
+AT-018|Remigration|Normal|2|0.01|50||0

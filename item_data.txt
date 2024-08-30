@@ -1,0 +1,7 @@
+IT-001|VTH|Very tiny house. Für ein Minómon reichts aber schön ist anders...|catch|0.5
+IT-002|NTTH|Not too tiny house. Hier leben sie schon lieber...|catch|0.75
+IT-003|ANETH|Almost not even tiny house. Wer kann da noch nein sagen...|catch|0.875
+IT-101|Bier|Der Ursprung und die Lösung sämtlicher Probleme. Heilt bis zu 50 HP.|heal|50
+IT-102|Schnaps|Falls es mal schnell gehen muss. Heilt bis zu 100 HP.heal|100
+IT-103|Cocktail-Sammlung|Die komplette Cocktail-Karte macht jeden wieder fit. Heilt bis zu 200 HP.|heal|200
+IT-201|Naprox|Das Allheilmittel! Heilt sämtliche Statusprobleme.|cure|1

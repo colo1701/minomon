@@ -1,0 +1,10 @@
+MS-001|Testomon|Trainiert nie Beine, hat aber ganz schön dicke Keulen...|Kampf|2.9|3.1|2.9|3.1|2.4|2.6|1000|AT-004|1|AT-001|5|AT-011|16|AT-013|32
+MS-002|Bugnorris|Mordsgefährlich, klebt aber auch schnell mal unter einem Schuh...|Pflanze|2.3|2.7|3.1|3.3|2.5|3.1|1000|AT-002|1|AT-003|7|AT-012|18|AT-013|30
+MS-003|Chainsmok|Sehr temperamentvoll und raucht gern. Und viel. Echt viel...|Feuer|2.5|3.0|3.0|3.3|2.5|2.7|1000|AT-004|1|AT-008|7|AT-012|12|AT-005|28
+MS-004|MissingNo|Gibt es gar nicht...|Normal|2.0|4.0|2.0|4.0|2.0|3.0|1000|AT-001|1|AT-001|1|AT-001|1|AT-003|10
+MS-005|Broomstick|Steht oft unauffällig herum, kann aber auch austeilen...|Pflanze|2.3|2.7|3.0|4.0|2.2|2.8|1000|AT-004|1|AT-010|5|AT-011|12|AT-007|24
+MS-006|Spongebill|Weiche Schale, weicher Kern. Hält dafür aber einiges aus...|Wasser|2.9|3.1|2.0|3.0|2.9|3.1|1000|AT-004|1|AT-003|8|AT-009|12|AT-006|36
+MS-007|NoMaamon|Bisher nur in der männlichen Form bekannt. Immer frustriert...|Normal|2.3|2.5|2.1|2.5|3.0|4.6|1000|AT-014|1|AT-001|12|AT-004|18|AT-011|24
+MS-008|Shellymon|Strukturelle Integrität kaum vorhanden aber sehr schlau...|Psycho|1.5|2.5|4.0|4.6|2.0|2.4|1000|AT-015|1|AT-016|7|AT-007|16|AT-005|25
+MS-009|Höckmon|Wirkt oft senil und versucht das durch Lautstärke zu überdecken...|Normal|0.18|0.88|0.18|0.88|0.18|0.88|800|AT-017|1|AT-017|1|AT-017|1|AT-018|24
+MS-010|Lazymon|Tut am liebsten gar nix. Außer es muss; dann schon...|Normal|3.3|3.7|1.9|2.1|2.7|3.3|1000|AT-007|1|AT-013|11|AT-005|21|AT-003|31
