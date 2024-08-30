@@ -35,12 +35,12 @@ class Mnstr:
                     self.hp_base = random.uniform(float(data[4]), float(data[5]))
                     self.att_base = random.uniform(float(data[6]), float(data[7]))
                     self.dfn_base = random.uniform(float(data[8]), float(data[9]))
-                    self.hp = self.lvl * self.hp_base
+                    self.hp = round(self.lvl * self.hp_base)
                     self.hp_act = self.hp
-                    self.att = self.lvl * self.att_base
-                    self.dfn = self.lvl * self.dfn_base
+                    self.att = round(self.lvl * self.att_base)
+                    self.dfn = round(self.lvl * self.dfn_base)
                     for i in np.arange(1, 8, step = 2):
-                        self.attacks["att_" + str((i + 1) // 2)] = {"id": data[i + 10], "level_req": data[i + 11],
+                        self.attacks["att_" + str((i + 1) // 2)] = {"id": data[i + 10], "lvl_req": data[i + 11],
                                                                     "name": None, "a_type": None,
                                                                     "dmg": None, "acc": None,
                                                                     "stat": None, "stat_acc": None,
@@ -77,10 +77,22 @@ class Mnstr:
         pass
 
     def lvl_up(self):
-        pass
+        self.lvl += 1
+        self.exp = 0
+        self.exp_target += self.exp_base
+        hp_init = self.hp
+        self.hp = round(self.lvl * self.hp_base)
+        self.att = round(self.lvl * self.att_base)
+        self.dfn = round(self.lvl * self.dfn_base)
+        if self.is_active:
+            self.hp_act += self.hp - hp_init
+        for k, v in self.attacks.items():
+            if int(v['lvl_req']) == self.lvl:
+                v['is_active'] = True
 
     def print_stats(self):
         return (f"ID: {self.id}\n"
+                f"Level: {self.lvl}\n"
                 f"Name: {self.name}\n"
                 f"Type: {self.type}\n"
                 f"Base Attributes: {self.hp_base, self.att_base, self.dfn_base}\n"
