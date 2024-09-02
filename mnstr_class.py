@@ -108,7 +108,7 @@ class Mnstr:
                 v['is_active'] = True
 
 # Ideas for Fights and Exp:
-    # Exp: (10 * <enemy_evel> * (<enemy_level> / <own_level>)
+    # Exp: (10 * <enemy_level> * (<enemy_level> / <own_level>)
     # Attack-Dmg: <attack_dmg> * (<own_att> / <enemy_dfn>)
 
     def get_exp(self, exp_delta):
