@@ -1,9 +1,13 @@
 import random
+import hashlib
+import datetime
+
 import numpy as np
 
 class Mnstr:
     def __init__(self, ms_id, ms_lvl):
         self.id = ms_id
+        self.p_id = None
         self.name = None
         self.lvl = ms_lvl
         self.exp_base = None
@@ -24,14 +28,16 @@ class Mnstr:
         self.load_attack_data()
 
     def load_initial_data(self):
-        with open('mnstr_data.txt', 'r') as file:
+        timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+        with open('mnstr_data.txt', 'r', encoding='utf-8') as file:
             for line in file:
                 data = line.strip().split('|')
                 if data[0] == self.id:
                     self.name = data[1]
                     self.type = data[3]
-                    self.exp_base = data[10]
-                    self.exp_target = self.lvl * self.exp_base
+                    self.exp_base = int(data[10])
+                    self.exp_target = int(self.lvl * self.exp_base)
+                    # Compute individual base values from the value ranges in mnstr_data
                     self.hp_base = random.uniform(float(data[4]), float(data[5]))
                     self.att_base = random.uniform(float(data[6]), float(data[7]))
                     self.dfn_base = random.uniform(float(data[8]), float(data[9]))
@@ -39,16 +45,21 @@ class Mnstr:
                     self.hp_act = self.hp
                     self.att = round(self.lvl * self.att_base)
                     self.dfn = round(self.lvl * self.dfn_base)
-                    for i in np.arange(1, 8, step = 2):
+                    # Prepare Attack Stats
+                    for i in np.arange(1, 8, step=2):
                         self.attacks["att_" + str((i + 1) // 2)] = {"id": data[i + 10], "lvl_req": data[i + 11],
                                                                     "name": None, "a_type": None,
                                                                     "dmg": None, "acc": None,
                                                                     "stat": None, "stat_acc": None,
                                                                     "ap": None, "is_active": self.lvl >= int(data[i + 11])}
+                    # Generate personal ID
+                    unique_string = f"{self.hp_base}|{self.att_base}|{self.dfn_base}|{timestamp}"
+                    self.p_id = hashlib.md5(unique_string.encode()).hexdigest()
                     break
 
     def load_attack_data(self):
-        with open('attack_data.txt', 'r') as file:
+        # Fill Attack Stats based on Attack id
+        with open('attack_data.txt', 'r', encoding='utf-8') as file:
             for line in file:
                 data = line.strip().split('|')
                 for k, v in self.attacks.items():
@@ -58,6 +69,8 @@ class Mnstr:
                         v['dmg'] = data[3]
                         v['acc'] = data[4]
                         v['ap'] = data[5]
+                        # Placeholder for status-influencing effects
+                        # These effects are not yet used.
                         v['stat'] = data[6]
                         v['stat_acc'] = data[7]
 
@@ -73,26 +86,42 @@ class Mnstr:
     def get_stat(self):
         pass
 
-    def get_exp(self):
-        pass
-
     def lvl_up(self):
+        # Sets new Level, Stats and Exp. Target.
+        # Unlocks new Attacks if available.
         self.lvl += 1
-        self.exp = 0
-        self.exp_target += self.exp_base
+        rest_exp = self.exp - self.exp_target
+        self.exp = rest_exp
+        self.exp_target = self.exp_base * self.lvl
+        # Store previous max HP
         hp_init = self.hp
+        # Compute new Max HP
         self.hp = round(self.lvl * self.hp_base)
         self.att = round(self.lvl * self.att_base)
         self.dfn = round(self.lvl * self.dfn_base)
+        # If Monstr is alive, add HP raise to actual HP
         if self.is_active:
-            self.hp_act += self.hp - hp_init
+            self.hp_act += (self.hp - hp_init)
+        # Check for new Attacks
         for k, v in self.attacks.items():
             if int(v['lvl_req']) == self.lvl:
                 v['is_active'] = True
 
+# Ideas for Fights and Exp:
+    # Exp: (10 * <enemy_evel> * (<enemy_level> / <own_level>)
+    # Attack-Dmg: <attack_dmg> * (<own_att> / <enemy_dfn>)
+
+    def get_exp(self, exp_delta):
+        # Adds Exp. gained and checks for Level Up
+        self.exp += exp_delta
+        # Use while Loop in order to allow more than one Level Up
+        while self.exp >= self.exp_target:
+            self.lvl_up()
+
     def print_stats(self):
-        return (f"ID: {self.id}\n"
-                f"Level: {self.lvl}\n"
+        # Debug Function. Prints relevant stats.
+        return (f"ID: {self.id} / {self.p_id}\n"
+                f"Level: {self.lvl} / XP: {self.exp} / XP for next Level: {self.exp_target}\n"
                 f"Name: {self.name}\n"
                 f"Type: {self.type}\n"
                 f"Base Attributes (HP MAX, ATT, DEF): {self.hp_base, self.att_base, self.dfn_base}\n"
