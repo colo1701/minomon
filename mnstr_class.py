@@ -4,6 +4,19 @@ import datetime
 
 import numpy as np
 
+
+def deal_dmg(m1, m2, attack_nr):
+    # compute and deal damage from m1 attacking m2
+    if random.uniform(0, 1) <= float(m1.attacks[f'att_{attack_nr}']['acc']):
+        dmg_dealt = round(int(m1.attacks[f'att_{attack_nr}']['dmg']) * m1.att / m2.dfn)
+        print(f"{m1.name} attacks with {m1.attacks[f'att_{attack_nr}']['name']} and deals {dmg_dealt} damage points.")
+        m2.hp_act = int(m2.hp_act - dmg_dealt)
+    else:
+        print(f"{m1.name} attacks with {m1.attacks[f'att_{attack_nr}']['name']} but misses...")
+    if m2.hp_act <= 0:
+        m2.fight_lost()
+
+
 class Mnstr:
     def __init__(self, ms_id, ms_lvl):
         self.id = ms_id
@@ -51,7 +64,8 @@ class Mnstr:
                                                                     "name": None, "a_type": None,
                                                                     "dmg": None, "acc": None,
                                                                     "stat": None, "stat_acc": None,
-                                                                    "ap": None, "is_active": self.lvl >= int(data[i + 11])}
+                                                                    "ap": None,
+                                                                    "is_active": self.lvl >= int(data[i + 11])}
                     # Generate personal ID
                     unique_string = f"{self.hp_base}|{self.att_base}|{self.dfn_base}|{timestamp}"
                     self.p_id = hashlib.md5(unique_string.encode()).hexdigest()
@@ -69,25 +83,15 @@ class Mnstr:
                         v['dmg'] = data[3]
                         v['acc'] = data[4]
                         v['ap'] = data[5]
-                        # Placeholder for status-influencing effects
-                        # These effects are not yet used.
+                        # stat and stat_acc are placeholders for status-influencing effects.
+                        # These effects are not yet implemented.
+                        # stat defines the type of status effect and stat_acc the accuracy, e.g. the probability of the
+                        # effect to get activated each turn.
                         v['stat'] = data[6]
                         v['stat_acc'] = data[7]
 
-    def deal_dmg(self):
-        pass
-
-    def get_dmg(self):
-        pass
-
-    def deal_stat(self):
-        pass
-
-    def get_stat(self):
-        pass
-
     def lvl_up(self):
-        # Sets new Level, Stats and Exp. Target.
+        # Sets new Level, Base Stats and Exp. Target.
         # Unlocks new Attacks if available.
         self.lvl += 1
         rest_exp = self.exp - self.exp_target
@@ -107,9 +111,12 @@ class Mnstr:
             if int(v['lvl_req']) == self.lvl:
                 v['is_active'] = True
 
-# Ideas for Fights and Exp:
-    # Exp: (10 * <enemy_level> * (<enemy_level> / <own_level>)
-    # Attack-Dmg: <attack_dmg> * (<own_att> / <enemy_dfn>)
+    def fight_lost(self):
+        self.is_active = False
+        self.hp_act = 0
+
+    def get_stat(self, stat_name):
+        pass
 
     def get_exp(self, exp_delta):
         # Adds Exp. gained and checks for Level Up
@@ -119,8 +126,9 @@ class Mnstr:
             self.lvl_up()
 
     def print_stats(self):
-        # Debug Function. Prints relevant stats.
+        # Debug Function. Prints all relevant stats.
         return (f"ID: {self.id} / {self.p_id}\n"
+                f"Alive: {self.is_active}\n"
                 f"Level: {self.lvl} / XP: {self.exp} / XP for next Level: {self.exp_target}\n"
                 f"Name: {self.name}\n"
                 f"Type: {self.type}\n"
